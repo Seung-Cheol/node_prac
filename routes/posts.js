@@ -3,16 +3,29 @@ const router = express.Router()
 
 const Post = require('../schemas/post')
 
-router.post("/", (req, res, next) => {
+
+router.get("/", async (req, res, next) => {
+  try {
+    const list = await Post.find({})
+    console.log(list)
+    res.json({data:list})
+  } catch (e) {
+    e.status = 400
+    next(e)
+  }
+});
+
+router.post("/:postId", (req, res, next) => {
     try {
-      const {postId, user, title, content} = req.body;
+      const postId = req.params;
+      const {user, title, content} = req.body;
       Post.create({
         postId,
         user,
         title,
         content,
       });
-      res.json({"msg":"수정성공"})
+      res.json({"msg":"입력성공"})
     } catch (e) {
       e.status = 400
       next(e)
@@ -24,7 +37,7 @@ router.get("/:postId", (req,res,next) => {
   try{
     const {postId} = req.params
     const get = Post.find({postId:postId})
-    res.json({get})
+    res.json({data:get})
     } catch(e) {
       e.status = 400
       next(e)

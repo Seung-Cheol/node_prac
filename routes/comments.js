@@ -24,13 +24,13 @@ router.post("/", (req,res,next) => {
 })
 
 
-router.get("/", (req,res,next) => {
+router.get("/", async (req,res,next) => {
     try{
     const {postId} = req.params
-    const postget = Comment.find({
+    const postget = await Comment.find({
         postId : postId
     })
-    res.json(postget);
+    res.json({data:postget});
     } catch(e) {
         e.status = 400
         next(e)
