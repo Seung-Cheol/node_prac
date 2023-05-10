@@ -1,11 +1,15 @@
-const { postRoute,commentRoute } = require('./routes');
+const { postRoute,commentRoute, logjoinRoute } = require('./routes');
 const express = require('express');
 const connect = require("./schemas");
 const app = express();
 const port = 3000;
+const cookieParser = require('cookie-parser');
 
 connect();
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use('/logjoin',[logjoinRoute])
 app.use('/posts',[postRoute])
 app.use('/comments/:postId',[commentRoute])
 

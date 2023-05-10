@@ -3,4 +3,5 @@ const router = express.Router();
 
 const postRoute = require('./posts')
 const commentRoute = require('./comments')
-module.exports = {postRoute,commentRoute}
+const logjoinRoute = require('./logjoin')
+module.exports = {postRoute,commentRoute,logjoinRoute}
