@@ -14,18 +14,19 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.post("/", auth, (req, res) => {
+router.post("/", auth, async (req, res) => {
     try {
-      const {user} = res.locals.user
       const {title, content} = req.body;
-      Post.create({
+      const {user} = res.locals.user
+      console.log(user)
+      await Post.create({
         user,
         title,
         content,
-      }).catch(()=>res.status(500).json({'msg':'db접속불량'}));
-      res.json({"msg":"입력성공"})
+      }).catch(()=>res.status(500).json({'msg':'db접속불량'}))
+      res.status(201).json({"msg":"입력성공"})
     } catch (e) {
-        res.status(400).json({'msg':'예상치 못한 오류가 발생했습니다'})
+        res.status(400).json({'msg':'예상치 못한 오류가 발생했습니다'+e})
     }
   });
 

@@ -41,19 +41,19 @@ router.post('/join', async (req,res) => {
 router.post('/login', async (req,res) => {
     try {
     const {user,password} = req.body
-    const login = await Member.find({
+    const login = await Member.findOne({
         user:user,
         password:password
     })
     if(login) {
-        const userjwt = jwt.sign({user:user},secretkey,{expireIn:"1h"})
+        const userjwt = jwt.sign({user:user},secretkey,{expiresIn:"1h"})
         res.cookie('auth',`Bearer ${userjwt}`)
         res.status(200).json({'msg':'토큰발행'})
     } else {
         res.status(412).json({'msg':'닉네임 혹은 비밀번호 일치하지 않습니다'})
     }
 } catch(e) {
-    res.status(400).json({'msg':'잘못된 접근입니다'})
+    res.status(400).json({'msg':'잘못된 접근입니다'+e})
 }
     
 })
